@@ -3,6 +3,7 @@ package org.java.project.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.query.QueryParameter;
 import org.java.project.pojo.Offerte;
 import org.java.project.pojo.Pizza;
 import org.java.project.serv.ServiceOfferte;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mysql.cj.Query;
 
 import jakarta.validation.Valid;
 
@@ -61,6 +64,10 @@ public class PizzaController {
 			Model model,
 			@PathVariable("id") int id
 		) {
+		
+		List<Pizza> p = servicePizza.findAll();
+		
+		model.addAttribute("pizza", p);
 		model.addAttribute("id", id);
 		model.addAttribute("offerte", new Offerte());
 		
@@ -69,7 +76,6 @@ public class PizzaController {
 	
 	@PostMapping("/new-offerte/create")
 	public String storeNewOfferta(
-
 			Model model,
 			@Valid @ModelAttribute Offerte offerte,
 			BindingResult bindingResult) {
@@ -95,6 +101,10 @@ public class PizzaController {
 			Model model,
 			@PathVariable("id") int id
 		) {
+		
+		List<Pizza> p = servicePizza.findAll();
+		model.addAttribute("pizz", p);
+		
 		Optional<Offerte> optPizza = serviceOfferte.findById(id);
 		Offerte offerte = optPizza.get();
 		

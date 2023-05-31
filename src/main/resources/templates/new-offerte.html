@@ -41,7 +41,9 @@
 		
 		<div>
 			<label>pizza_id</label>
-			<input type="number" name="pizza" th:value="${id}">	
+			<select name="pizza" th:value="${id}">
+				<option  th:each="piz : ${pizza}" th:object="${piz}" th:selected="${id} == *{id}" th:value="*{id}">[[ *{name} ]]</option>
+			</select>
 		</div>
 		<input type="submit" value="Create offer">
 	</form>
