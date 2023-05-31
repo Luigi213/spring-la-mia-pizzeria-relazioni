@@ -3,7 +3,9 @@ package org.java.project.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.project.pojo.Offerte;
 import org.java.project.pojo.Pizza;
+import org.java.project.serv.ServiceOfferte;
 import org.java.project.serv.ServicePizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class PizzaController {
 	@Autowired
 	private ServicePizza servicePizza;
 	
+	@Autowired
+	private ServiceOfferte serviceOfferte;
+	
 	@GetMapping("/")
 	public String getHome(Model model) {
 		
@@ -41,11 +46,82 @@ public class PizzaController {
 	) {
 		
 		Optional<Pizza> optPizza = servicePizza.findById(id);
+		Optional<Pizza> optOfferte = servicePizza.findByIdWithOfferte(id);
 		Pizza pizza = optPizza.get();
+		Pizza pizzaOfferte = optOfferte.get();
 		
 		model.addAttribute("pizza", pizza);
+		model.addAttribute("pizzaOfferte", pizzaOfferte.getOfferte());
 		
 		return "pizza";
+	}
+	
+	@GetMapping("/new-offerte/create/{id}")
+	public String createNewOfferta( 
+			Model model,
+			@PathVariable("id") int id
+		) {
+		model.addAttribute("id", id);
+		model.addAttribute("offerte", new Offerte());
+		
+		return "new-offerte";
+	}
+	
+	@PostMapping("/new-offerte/create")
+	public String storeNewOfferta(
+
+			Model model,
+			@Valid @ModelAttribute Offerte offerte,
+			BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("offerte", offerte);
+			model.addAttribute("errors", bindingResult);
+			model.addAttribute("id", offerte.getPizza().getId());
+			
+			return "new-offerte";
+		}
+		
+		
+		serviceOfferte.save(offerte);
+		
+		return "redirect:/pizza/" + offerte.getPizza().getId();
+	}
+	
+	
+	@GetMapping("/new-offerte/update/{id}")
+	public String editOfferte(
+			Model model,
+			@PathVariable("id") int id
+		) {
+		Optional<Offerte> optPizza = serviceOfferte.findById(id);
+		Offerte offerte = optPizza.get();
+		
+		model.addAttribute("offerte", offerte);
+		
+		return "offerte-update";
+	}
+	
+	
+	@PostMapping("/new-offerte/update/{id}")
+	public String updateOfferte(
+			Model model,
+			@Valid @ModelAttribute Offerte offerte,
+			BindingResult bindingResult
+		) {
+		
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("offerte", offerte);
+			model.addAttribute("errors", bindingResult);
+			
+			return "offerte-update";
+		}
+		
+		serviceOfferte.save(offerte);
+		
+		return "redirect:/pizza/" + offerte.getPizza().getId();
 	}
 	
 	@PostMapping("/pizza/by/name")
@@ -68,6 +144,7 @@ public class PizzaController {
 	
 	@PostMapping("/pizza/create")
 	public String storePizza(
+
 			Model model,
 			@Valid @ModelAttribute Pizza pizza,
 			BindingResult bindingResult
@@ -86,6 +163,7 @@ public class PizzaController {
 		return "redirect:/";
 	}
 	
+	
 	@GetMapping("/pizza/delete/{id}")
 	public String deletePizza(
 			@PathVariable("id") int id
@@ -99,6 +177,7 @@ public class PizzaController {
 		return "redirect:/";
 	}
 	
+	
 	@GetMapping("/pizza/update/{id}")
 	public String editPizza(
 			Model model,
@@ -108,16 +187,26 @@ public class PizzaController {
 		Optional<Pizza> optPizza = servicePizza.findById(id);
 		Pizza pizza = optPizza.get();
 		
-		model.addAttribute("pizzas", pizza);
+		model.addAttribute("pizza", pizza);
 		
 		return "pizza-update";
 	}
 	
+	
 	@PostMapping("/pizza/update/{id}")
 	public String updatePizza(
-			@PathVariable("id") int id,
-			@ModelAttribute Pizza pizza
+			Model model,
+			@Valid @ModelAttribute Pizza pizza,
+			BindingResult bindingResult
 		) {
+		
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("pizza", pizza);
+			model.addAttribute("errors", bindingResult);
+			
+			return "pizza-update";
+		}
 		
 		servicePizza.save(pizza);
 		

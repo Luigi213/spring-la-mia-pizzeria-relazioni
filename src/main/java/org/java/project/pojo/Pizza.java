@@ -1,9 +1,12 @@
 package org.java.project.pojo;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 
@@ -22,6 +25,9 @@ public class Pizza {
 	private String urlPhoto;
 	@DecimalMin(value = "0.1", message = "price can't be 0")
 	private double price;
+	
+	@OneToMany(mappedBy="pizza")
+	private List<Offerte> Offerte;
 	
 	public Pizza () {};
 	public Pizza (String name, String description, String urlPhoto, double price) {
@@ -60,6 +66,12 @@ public class Pizza {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public List<Offerte> getOfferte() {
+		return Offerte;
+	}
+	public void setOfferte(List<Offerte> offerte) {
+		Offerte = offerte;
 	}
 	
 	public String formatPrice() {

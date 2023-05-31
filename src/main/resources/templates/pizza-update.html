@@ -4,26 +4,38 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body th:object="${pizzas}">
-	<h1>Pizza update</h1>
+<body th:object="${pizza}">
+	<h1>Create pizza</h1>
 	<form method="POST">
 		<div>
 			<label>name</label>
 			<input type="text" name="name" th:value="*{name}">
+			<label style="color: red" th:if="${errors != null && errors.hasFieldErrors('name')}">
+				[[ ${errors.getFieldError('name').defaultMessage} ]]
+			</label>
 		</div>
 		<div>
 			<label>description</label>
 			<input type="text" name="description" th:value="*{description}">
+			<label style="color: red" th:if="${errors != null && errors.hasFieldErrors('description')}">
+				[[ ${errors.getFieldError('description').defaultMessage} ]]
+			</label>
 		</div>
 		<div>
 			<label>urlPhoto</label>
 			<input type="text" name="urlPhoto" th:value="*{urlPhoto}">
+			<label style="color: red" th:if="${errors != null && errors.hasFieldErrors('urlPhoto')}">
+				[[ ${errors.getFieldError('urlPhoto').defaultMessage} ]]
+			</label>
 		</div>
 		<div>
 			<label>price</label>
 			<input type="number" name="price" th:value="*{price}">
+			<label style="color: red" th:if="${errors != null && errors.hasFieldErrors('price')}">
+				[[ ${errors.getFieldError('price').defaultMessage} ]]
+			</label>
 		</div>
-		<input type="submit" value="Update">
+		<input type="submit" value="Create">
 	</form>
 </body>
 </html>
