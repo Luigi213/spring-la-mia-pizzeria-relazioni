@@ -49,6 +49,9 @@ public class OfferteController {
 			BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
+			List<Pizza> p = servicePizza.findAll();
+			
+			model.addAttribute("pizza", p);
 			
 			model.addAttribute("offerte", offerte);
 			model.addAttribute("errors", bindingResult);
