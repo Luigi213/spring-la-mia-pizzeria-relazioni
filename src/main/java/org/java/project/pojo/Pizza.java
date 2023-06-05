@@ -1,11 +1,13 @@
 package org.java.project.pojo;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -29,12 +31,17 @@ public class Pizza {
 	@OneToMany(mappedBy="pizza")
 	private List<Offerte> Offerte;
 	
+	@ManyToMany
+	private List<Ingrediente> ingredientes;
+	
 	public Pizza () {};
-	public Pizza (String name, String description, String urlPhoto, double price) {
+	public Pizza (String name, String description, String urlPhoto, double price, Ingrediente... ingredientes) {
 		setName(name);
 		setDescription(description);
 		setUrlPhoto(urlPhoto);
 		setPrice(price);
+		
+		setIngredientes(ingredientes);
 	}
 
 	public int getId() {
@@ -72,6 +79,21 @@ public class Pizza {
 	}
 	public void setOfferte(List<Offerte> offerte) {
 		Offerte = offerte;
+	}
+	public List<Ingrediente> getIngredientes() {
+		return ingredientes;
+	}
+	public void setIngredientes(List<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+	public void setIngredientes(Ingrediente[] ingredientes) {
+		setIngredientes(Arrays.asList(ingredientes));
+	}
+	public void addIngrediente(Ingrediente ingrediente) {
+		getIngredientes().add(ingrediente);
+	}
+	public void removeIngrediente(Ingrediente ingrediente) {
+		getIngredientes().remove(ingrediente);
 	}
 	
 	public String formatPrice() {

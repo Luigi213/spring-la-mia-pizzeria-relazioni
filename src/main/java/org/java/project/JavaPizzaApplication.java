@@ -2,8 +2,10 @@ package org.java.project;
 
 import java.time.LocalDate;
 
+import org.java.project.pojo.Ingrediente;
 import org.java.project.pojo.Offerte;
 import org.java.project.pojo.Pizza;
+import org.java.project.serv.ServiceIngrediente;
 import org.java.project.serv.ServiceOfferte;
 import org.java.project.serv.ServicePizza;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class JavaPizzaApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ServiceOfferte serviceOfferte;
+	
+	@Autowired
+	private ServiceIngrediente serviceIngrediente;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JavaPizzaApplication.class, args);
@@ -25,9 +30,29 @@ public class JavaPizzaApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		Pizza p1 = new Pizza("margherita", "pom", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 10);
-		Pizza p2 = new Pizza("bufala", "pom", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 10);
-		Pizza p3 = new Pizza("diavola", "pom", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 10);
+		
+		Ingrediente i1 = new Ingrediente("mozzarella");
+		Ingrediente i2 = new Ingrediente("sugo");
+		Ingrediente i3 = new Ingrediente("salame");
+		
+		serviceIngrediente.save(i1);
+		serviceIngrediente.save(i2);
+		serviceIngrediente.save(i3);
+		
+		Pizza p1 = new Pizza("margherita",
+				"pom", 
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 
+				10,
+				i1,i3);
+		Pizza p2 = new Pizza("bufala", 
+				"pom", 
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 
+				10,
+				i2);
+		Pizza p3 = new Pizza("diavola", 
+				"pom", 
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglASWaP2qUY2CfIBQfpGhEY6vh8m3OgFUig&usqp=CAU", 
+				10);
 		
 		servicePizza.save(p1);
 		servicePizza.save(p2);
@@ -42,5 +67,6 @@ public class JavaPizzaApplication implements CommandLineRunner{
 		serviceOfferte.save(o2);
 		serviceOfferte.save(o3);
 		serviceOfferte.save(o4);
+		
 	}
 }

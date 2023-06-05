@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Create ingrediente</h1>
+	<form method="POST">
+		<label>Nome dell'ingrediente</label>
+		<input type="text" name="nomeIngrediente">
+		<div th:each="pizza : ${pizzas}" th:object="${pizza}">
+			<input type="checkbox" name="pizza" th:id="${'pizza-' + pizza.id}" th:value="*{id}">
+			<label for="${'pizza-' + pizza.id}">[[ *{name} ]]</label>	
+		</div>
+		<input type="submit" value="create">
+	</form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Ingredienti</h2>
+	<a th:href="@{/ingrediente/create}">New ingrediente</a>
+	<ul>
+		<li th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+			[[ *{nomeIngrediente} ]]
+			<a th:href="@{/ingrediente/delete/{id} (id=*{id})}">Delete</a>
+		</li>		
+	</ul>
+</body>
+</html>
