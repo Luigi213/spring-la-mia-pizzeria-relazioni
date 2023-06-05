@@ -16,7 +16,8 @@
 		<a th:href="@{/new-offerte/create/{id} (id=*{id})}">New offerta</a>
 		<ul>
 			<li th:each="offerte : ${pizzaOfferte}">
-				[[ ${offerte} ]]
+				[[ ${offerte} ]] 
+				<a th:href="@{/new-offerte/update/{id} (id=${offerte.id})}">Modifica</a>
 			</li>		
 		</ul>
 	</div>

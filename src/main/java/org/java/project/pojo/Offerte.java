@@ -94,6 +94,7 @@ public class Offerte {
 				+ " titolo: "+ getTitle() + ","
 				+ " sconto: " + getDiscount() + "%,"
 				+ " data di inizio: " + getStart_date() + ","
-				+ " data di fine: " + getEnd_date();
+				+ " data di fine: " + getEnd_date()
+				+ " prezzo con sconto: " + printPriceDiscount();
 	}
 }

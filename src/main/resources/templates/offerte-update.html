@@ -9,7 +9,6 @@
 	<form method="POST">
 		<div>
 			<label>start date</label>
-			<p>[[*{start_date}]]</p>
 			<input type="date" name="start_date" th:value="*{start_date}">
 			<label style="color: red" th:if="${errors != null && errors.hasFieldErrors('start_date')}">
 				[[ ${errors.getFieldError('start_date').defaultMessage} ]]
