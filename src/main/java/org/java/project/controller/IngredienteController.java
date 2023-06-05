@@ -68,10 +68,16 @@ public class IngredienteController {
 		Optional<Ingrediente> optIngrediente = serviceIngrediente.findById(id);
 		Ingrediente ingrediente = optIngrediente.get();
 		
+		for(Pizza pizza : ingrediente.getPizza()) {
+			
+			pizza.removeIngrediente(ingrediente);
+			servicePizza.save(pizza);
+		}
+		
 		serviceIngrediente.delete(ingrediente);
 		
 		
-		return "redirect:/";
+		return "redirect:/ingrediente";
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.project.pojo.Offerte;
+import org.java.project.pojo.Pizza;
 import org.java.project.repo.RepoOfferte;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,8 @@ public class ServiceOfferte {
 	}
 	public Optional<Offerte> findById(int id) {
 		return repoOfferte.findById(id);
+	}
+	public void delete(Offerte offerte) {
+		repoOfferte.delete(offerte);
 	}
 }

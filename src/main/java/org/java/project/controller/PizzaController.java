@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.project.pojo.Ingrediente;
+import org.java.project.pojo.Offerte;
 import org.java.project.pojo.Pizza;
 import org.java.project.serv.ServiceIngrediente;
+import org.java.project.serv.ServiceOfferte;
 import org.java.project.serv.ServicePizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,10 @@ public class PizzaController {
 	private ServicePizza servicePizza;
 	
 	@Autowired
-	ServiceIngrediente serviceIngrediente;
+	private ServiceIngrediente serviceIngrediente;
+
+	@Autowired
+	private ServiceOfferte serviceOfferte;
 	
 	@GetMapping("/")
 	public String getHome(Model model) {
@@ -143,6 +148,10 @@ public class PizzaController {
 		
 		Optional<Pizza> optPizza = servicePizza.findById(id);
 		Pizza pizza = optPizza.get();
+		
+		for(Offerte offerta : pizza.getOfferte()) {
+			serviceOfferte.delete(offerta);
+		}
 		
 		servicePizza.delete(pizza);
 		
